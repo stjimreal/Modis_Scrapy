@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-03-26 20:51:32
+LastEditTime: 2021-03-26 21:06:37
 '''
 import scrapy
 import re
@@ -14,17 +14,19 @@ import logging.handlers
 class ModisNsidcSpider(scrapy.Spider):
     name = 'modis_nsidc'
     allowed_domains = ['https://n5eil01u.ecs.nsidc.org/']
+    # 请注意设定的 products 必须在 start_urls 的目录当中，但不必一一对应！
     start_urls = ['https://n5eil01u.ecs.nsidc.org/MOSA/', 'https://n5eil01u.ecs.nsidc.org/MOST/']
     products = set(['MYD10A1.006','MOD10A1.006'])
     login_urls = 'https://urs.earthdata.nasa.gov/login'
     date_end = '2021.01.01'
     date_beg = '2021.01.03'
     region = ['h2{}v0{}'.format(i, j) for i in range(2, 8) for j in range(4, 7)]
+    # 尚未实现研究区自动规划配置，可手动写入h[xx]v[xx]
     asia_region = ['h{}v0{}'.format(i, j) for i in range(20, 30) for j in range(1, 8)] + ['h{}v0{}'.format(i, j) for i in range(17, 20) for j in range(1, 5)]
-    username = 'Mui0416'
-    password = 'zkyygsMui201513'
+    username = ''
+    password = ''
     key_sets = []
-    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
+    user_agent = ''
 
     LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
     log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_nsidc_spider.log", maxBytes=500*1024, backupCount=5)])
@@ -43,10 +45,12 @@ class ModisNsidcSpider(scrapy.Spider):
             self.products = set(conf.get('products', self.products))
             self.start_urls=conf.get('start_urls', self.start_urls)
             self.region   = conf.get('region', self.region)
+            self.user_agent= conf.get('user_agent', self.user_agent)
         super().__init__(name=name, **kwargs)
 
     def download_pictures(self, response):
         """ 
+        走到当日文件夹，开始选择区域下载影像
         """
         all_urls = response.css("a::attr(href)").extract()
         def find_all_tiles(s, region):
@@ -61,7 +65,7 @@ class ModisNsidcSpider(scrapy.Spider):
 
     def parse_folder(self, response):
         """ 
-        
+        找出所有符合要求的日期
         """
         all_urls = response.css("a::attr(href)").extract()
         all_urls = set([parse.urljoin(response.request.url, url) for url in all_urls if (url.strip("/") >= self.date_end and url.strip("/") <= self.date_beg)])
@@ -71,7 +75,7 @@ class ModisNsidcSpider(scrapy.Spider):
 
     def parse(self, response):
         """ 
-        
+        找出所有的产品
         """
         pattern = re.compile(r'([A-Z0-9]+\.\w+)')
         products = pattern.findall(response.text)

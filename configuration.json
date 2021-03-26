@@ -5,7 +5,8 @@
     "date_end"  : "2021.01.01",
     "date_beg"  : "2021.01.03",
     "key_sets"  : [
-                    {"username" : "Mui0416","password" : "zkyygsMui201513"}, 
-                    {"username" : "1079085810Wstar","password":"Radi123456"}
-                ]
+                    {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}, 
+                    {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}
+                ],
+    "user_agent": ""
 }
