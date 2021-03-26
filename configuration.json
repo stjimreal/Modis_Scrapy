@@ -8,5 +8,5 @@
                     {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}, 
                     {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}
                 ],
-    "user_agent": ""
+    "user_agent": "SET_YOUR_BROWSER_TYPE_HERE"
 }
