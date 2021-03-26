@@ -1,13 +1,15 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-03-26 19:52:30
+LastEditTime: 2021-03-26 20:51:32
 '''
 import scrapy
 import re
 from urllib import parse
 from modis_scrapy.items import ModisScrapyItem
 from cfg import Conf
+import logging
+import logging.handlers
 
 class ModisNsidcSpider(scrapy.Spider):
     name = 'modis_nsidc'
@@ -22,12 +24,15 @@ class ModisNsidcSpider(scrapy.Spider):
     username = 'Mui0416'
     password = 'zkyygsMui201513'
     key_sets = []
-    
+    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
+
+    LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
+    log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_nsidc_spider.log", maxBytes=500*1024, backupCount=5)])
     
     headers= {
         'Host':'n5eil01u.ecs.nsidc.org',
         'Referer': allowed_domains[0],
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36',
+        'User-Agent': user_agent,
     }
 
     def __init__(self, name=None, conf:dict=Conf, **kwargs):
@@ -50,8 +55,6 @@ class ModisNsidcSpider(scrapy.Spider):
                     return True
             return False
         all_urls = set([parse.urljoin(response.request.url, url) for url in all_urls if (url.endswith('.hdf') or url.endswith('.hdf.xml')) and find_all_tiles(url, self.region)])
-        with open("file_list.txt", 'a+') as f:
-            f.writelines(str(all_urls))
         
         item = ModisScrapyItem(file_urls=all_urls)
         yield item
@@ -61,10 +64,8 @@ class ModisNsidcSpider(scrapy.Spider):
         
         """
         all_urls = response.css("a::attr(href)").extract()
-        all_urls = set([parse.urljoin(response.request.url, url) for url in all_urls if (url >= self.date_end and url <= self.date_beg)])
-        print("found {} days of pics".format(len(all_urls)))
-        with open('list.txt', 'a+') as f:
-            f.writelines(all_urls)
+        all_urls = set([parse.urljoin(response.request.url, url) for url in all_urls if (url.strip("/") >= self.date_end and url.strip("/") <= self.date_beg)])
+        logging.info("found {} days of pics".format(len(all_urls)))
         for url in all_urls:
             yield scrapy.Request(url, callback=self.download_pictures, headers=self.headers, dont_filter=True)
 
@@ -98,7 +99,7 @@ class ModisNsidcSpider(scrapy.Spider):
             post_url = self.login_urls
             login_headers = {
                 'Host':'urs.earthdata.nasa.gov',
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36',
+                'User-Agent': self.user_agent,
             }
             post_data= {
                     "authenticity_token": xsrf_token,
@@ -118,8 +119,8 @@ class ModisNsidcSpider(scrapy.Spider):
         """ 
         判断是否登录成功
         """
-        print("checking...")
-        print(type(response.status))
+        logging.info("checking...")
+        logging.info(type(response.status))
         if (response.status == 200):
             for url in self.start_urls:
                 yield scrapy.Request(url, dont_filter=True, callback=self.redirect_req, headers=self.headers)
@@ -132,6 +133,3 @@ class ModisNsidcSpider(scrapy.Spider):
         grp = re.match(r'.*id="redir_link" href="(.*?)"', text, re.DOTALL)
         url = grp.group(1)
         return scrapy.Request(url, dont_filter=True, callback=self.parse, headers=self.headers)
-
-        # if (url):
-        #     return scrapy.Request(url, callback=)
