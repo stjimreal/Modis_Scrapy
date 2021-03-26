@@ -1,0 +1,11 @@
+{
+    "start_urls": ["https://n5eil01u.ecs.nsidc.org/MOSA/", "https://n5eil01u.ecs.nsidc.org/MOST/"],
+    "products"  : ["MYD10A1.006","MOD10A1.006"],
+    "login_urls": "https://urs.earthdata.nasa.gov/login",
+    "date_end"  : "2021.01.01",
+    "date_beg"  : "2021.01.03",
+    "key_sets"  : [
+                    {"username" : "Mui0416","password" : "zkyygsMui201513"}, 
+                    {"username" : "1079085810Wstar","password":"Radi123456"}
+                ]
+}
