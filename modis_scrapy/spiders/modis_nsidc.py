@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-03-26 21:06:37
+LastEditTime: 2021-06-25 23:26:44
 '''
 import scrapy
 import re
@@ -27,6 +27,7 @@ class ModisNsidcSpider(scrapy.Spider):
     password = ''
     key_sets = []
     user_agent = ''
+    meta_proxy = 'socks5://127.0.0.1:7890'
 
     LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
     log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_nsidc_spider.log", maxBytes=500*1024, backupCount=5)])
@@ -46,6 +47,7 @@ class ModisNsidcSpider(scrapy.Spider):
             self.start_urls=conf.get('start_urls', self.start_urls)
             self.region   = conf.get('region', self.region)
             self.user_agent= conf.get('user_agent', self.user_agent)
+            self.meta_proxy= conf.get('proxy', self.meta_proxy)
         super().__init__(name=name, **kwargs)
 
     def download_pictures(self, response):
@@ -87,7 +89,7 @@ class ModisNsidcSpider(scrapy.Spider):
     
     
     def start_requests(self):
-        return [scrapy.Request('https://urs.earthdata.nasa.gov/home', headers=ModisNsidcSpider.headers, callback=self.login)]
+        return [scrapy.Request('https://urs.earthdata.nasa.gov/home', headers=ModisNsidcSpider.headers, callback=self.login, meta= {'proxy': self.meta_proxy})]
     
 
     def login(self, response):
@@ -117,6 +119,7 @@ class ModisNsidcSpider(scrapy.Spider):
                 headers = login_headers,
                 callback= self.check_login,
                 dont_filter=True,
+                meta= {'proxy': self.meta_proxy}
             )]
 
     def check_login(self, response):
@@ -127,7 +130,7 @@ class ModisNsidcSpider(scrapy.Spider):
         logging.info(type(response.status))
         if (response.status == 200):
             for url in self.start_urls:
-                yield scrapy.Request(url, dont_filter=True, callback=self.redirect_req, headers=self.headers)
+                yield scrapy.Request(url, dont_filter=True, callback=self.redirect_req, headers=self.headers, meta= {'proxy': self.meta_proxy})
 
     def redirect_req(self, response):
         """ 
