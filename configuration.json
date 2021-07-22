@@ -8,6 +8,5 @@
                     {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}, 
                     {"username" : "YOUR_USERNAME_HERE","password" : "YOUR_PASSWORD_HERE"}
                 ],
-    "user_agent": "SET_YOUR_BROWSER_TYPE_HERE",
     "proxy": "socks5://127.0.0.1:7890"
 }

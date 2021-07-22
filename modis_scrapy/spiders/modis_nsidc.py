@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-06-25 23:26:44
+LastEditTime: 2021-07-22 16:08:50
 '''
 import scrapy
 import re
@@ -22,11 +22,11 @@ class ModisNsidcSpider(scrapy.Spider):
     date_beg = '2021.01.03'
     region = ['h2{}v0{}'.format(i, j) for i in range(2, 8) for j in range(4, 7)]
     # 尚未实现研究区自动规划配置，可手动写入h[xx]v[xx]
-    asia_region = ['h{}v0{}'.format(i, j) for i in range(20, 30) for j in range(1, 8)] + ['h{}v0{}'.format(i, j) for i in range(17, 20) for j in range(1, 5)]
+    asia_region = ['h{}v0{}'.format(i, j) for i in range(20, 30) for j in range(0, 8)] + ['h{}v0{}'.format(i, j) for i in range(17, 20) for j in range(0, 5)]
     username = ''
     password = ''
     key_sets = []
-    user_agent = ''
+    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
     meta_proxy = 'socks5://127.0.0.1:7890'
 
     LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
