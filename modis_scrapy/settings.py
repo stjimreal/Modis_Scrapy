@@ -1,10 +1,9 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-03-26 18:58:48
+LastEditTime: 2021-07-22 16:27:33
 '''
 import os
-import sys
 # Scrapy settings for modis_scrapy project
 #
 # For simplicity, this file contains only settings considered important or

@@ -1,8 +1,9 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-07-22 16:08:50
+LastEditTime: 2021-07-22 21:53:47
 '''
+from modis_scrapy import settings
 import scrapy
 import re
 from urllib import parse
@@ -48,6 +49,11 @@ class ModisNsidcSpider(scrapy.Spider):
             self.region   = conf.get('region', self.region)
             self.user_agent= conf.get('user_agent', self.user_agent)
             self.meta_proxy= conf.get('proxy', self.meta_proxy)
+
+            settings.FILES_STORE = conf.get('file_store', settings.FILES_STORE)
+            if len(self.key_sets) > 0:
+                self.username = self.key_sets[0]['username']
+                self.password = self.key_sets[0]['password']
         super().__init__(name=name, **kwargs)
 
     def download_pictures(self, response):
