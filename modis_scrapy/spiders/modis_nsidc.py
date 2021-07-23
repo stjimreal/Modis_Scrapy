@@ -27,8 +27,12 @@ class ModisNsidcSpider(scrapy.Spider):
     username = ''
     password = ''
     key_sets = []
+<<<<<<< HEAD
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
     meta_proxy = 'socks5://127.0.0.1:7890'
+=======
+    user_agent = user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36'
+>>>>>>> d15967d6831112e5c8e1e244ef6a3cec5c5ded79
 
     LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
     log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_nsidc_spider.log", maxBytes=500*1024, backupCount=5)])

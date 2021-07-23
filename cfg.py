@@ -5,4 +5,9 @@ LastEditTime: 2021-03-26 21:43:28
 '''
 import json
 
-Conf = json.load(open('configuration.json'))
+def init(cfg):
+    global Conf
+    Conf = json.load(open(cfg))
+
+def get(value, default):
+    return Conf.get(value, default)

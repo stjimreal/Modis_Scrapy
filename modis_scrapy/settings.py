@@ -1,9 +1,9 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-07-22 16:27:33
+LastEditTime: 2021-07-24 00:55:30
 '''
-import os
+from utils.globals import OUTPUT_PATH
 # Scrapy settings for modis_scrapy project
 #
 # For simplicity, this file contains only settings considered important or
@@ -71,7 +71,7 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
    'modis_scrapy.pipelines.ModisScrapyPipeline': 300,
 }
-FILES_STORE = os.path.join(os.environ['HOME'], 'MODIS_NSIDC_DATABASE')
+FILES_STORE = OUTPUT_PATH
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
