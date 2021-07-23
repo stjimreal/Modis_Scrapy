@@ -1,3 +1,8 @@
+'''
+Date: 2021-07-24 00:57:16
+LastEditors: LIULIJING
+LastEditTime: 2021-07-24 01:28:01
+'''
 from __future__ import print_function
 
 from utils.globals import URS_URL
@@ -61,8 +66,8 @@ def get_credentials():
 
     while not credentials:
         if not username:
-            username = credentials.get_username()
-            password = credentials.get_password()
+            username = get_username()
+            password = get_password()
         credentials = '{0}:{1}'.format(username, password)
         credentials = base64.b64encode(credentials.encode('ascii')).decode('ascii')
 

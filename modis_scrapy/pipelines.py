@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-03-26 18:50:37
+LastEditTime: 2021-07-24 03:27:12
 '''
 # Define your item pipelines here
 #
@@ -29,9 +29,9 @@ class ModisScrapyPipeline(FilesPipeline):
         header = {'Authorization': 'Basic {}'.format(credentials.get_credentials())}
         for file_url in item['file_urls']:
             req = Request(file_url, headers=header)
-            print(req.headers.to_string(), req.url, req.method)
             yield req
     def file_path(self, request, response=None, info=None, *, item=None):
         path = urlparse(request.url).path
-        save_name = os.path.basename(path)
-        return save_name
+        base_name = os.path.basename(path)
+        
+        return base_name

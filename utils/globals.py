@@ -1,15 +1,20 @@
-short_name = 'MOD10A2'
+'''
+Date: 2021-07-24 00:57:16
+LastEditors: LIULIJING
+LastEditTime: 2021-07-24 03:08:13
+'''
+short_name = ['MOD10A2', 'MYD10A2']
 version = '6'
 time_start = '2000-02-24T00:00:00Z'
-time_end = '2021-07-21T05:48:52Z'
+time_end = '2021-07-24T05:48:52Z'
 bounding_box = '62,26,105.0018536,46.000389'
 polygon = ''
 filename_filter = ''
-url_list = []
 
 CMR_URL = 'https://cmr.earthdata.nasa.gov'
 URS_URL = 'https://urs.earthdata.nasa.gov'
-CMR_PAGE_SIZE = 2000
+meta_proxy = 'socks5://127.0.0.1:7890'
+CMR_PAGE_SIZE = 20
 CMR_FILE_URL = ('{0}/search/granules.json?provider=NSIDC_ECS'
                 '&sort_key[]=start_date&sort_key[]=producer_granule_id'
                 '&scroll=false&page_size={1}'.format(CMR_URL, CMR_PAGE_SIZE))
@@ -25,4 +30,5 @@ USER_AGENT_LIST=[
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
             "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
         ]
-OUTPUT_PATH = 'I:\\\\MODIS_NSIDC_DATABASE_2021'
+# OUTPUT_PATH = 'I:\\\\MODIS_NSIDC_DATABASE_2021'
+OUTPUT_PATH = '/Volumes/jimDisk/MODIS_NSIDC_DATABASE_2021'
