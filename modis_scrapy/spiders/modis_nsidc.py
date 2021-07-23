@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-26 00:22:28
 LastEditors: LIULIJING
-LastEditTime: 2021-07-22 21:53:47
+LastEditTime: 2021-07-25 02:03:10
 '''
 from modis_scrapy import settings
 import scrapy
