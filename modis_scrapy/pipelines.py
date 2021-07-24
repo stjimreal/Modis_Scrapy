@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-07-24 22:19:42
+LastEditTime: 2021-07-25 00:49:22
 '''
 # Define your item pipelines here
 #
@@ -11,13 +11,8 @@ LastEditTime: 2021-07-24 22:19:42
 
 # useful for handling different item types with a single interface
 import random
-import re
-
-from scrapy.http.headers import Headers
 from utils import credentials
 from utils.globals import USER_AGENT_LIST
-
-from itemadapter import ItemAdapter
 from scrapy.pipelines.files import FilesPipeline
 from scrapy import Request
 from urllib.parse import urlparse
@@ -25,7 +20,7 @@ import os
 
 class ModisScrapyPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
-        # ('Authorization', 'Basic MTA3OTA4NTgxMFdzdGFyOlJhZGkxMjM0NTY=')
+
         header = {'User-Agent': random.choice(USER_AGENT_LIST), 'Authorization': 'Basic {}'.format(credentials.get_credentials())}
         for file_url in item['file_urls']:
             req = Request(file_url, headers=header)

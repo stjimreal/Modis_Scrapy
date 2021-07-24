@@ -1,14 +1,14 @@
 '''
 Date: 2021-03-26 19:20:38
 LastEditors: LIULIJING
-LastEditTime: 2021-07-24 23:50:17
+LastEditTime: 2021-07-25 00:58:01
 '''
 
-short_name = ['MOD02HKM', 'MYD02HKM'] # product name
+short_name = ['MOD02HKM'] # product name
 version = '6' # version: 5 6 61
 data_center = 'LAADS' # NSIDC_ECS, LAADS, LPDAAC_ECS, ...
-time_start = '2021-07-20T00:00:00Z' # begin date, try not changing the format
-time_end = '2021-07-24T05:48:52Z' # end date
+time_start = '2021-07-19T00:00:00Z' # begin date, try not changing the format
+time_end = '2021-07-20T05:48:52Z' # end date
 bounding_box = '62,26,105.0018536,46.000389' # W, S, E, N or other GeoJson format
 polygon = '' # GeoJson Format
 filename_filter = '' # Regular Expression

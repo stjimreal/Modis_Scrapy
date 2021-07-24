@@ -1,7 +1,7 @@
 '''
 Date: 2021-07-24 00:57:16
 LastEditors: LIULIJING
-LastEditTime: 2021-07-24 21:33:33
+LastEditTime: 2021-07-25 00:55:27
 '''
 from __future__ import print_function
 
@@ -41,11 +41,9 @@ def get_credentials():
     global URS_URL
     
     credentials = None
-    errprefix = ''
     try:
         info = netrc.netrc()
-        username, account, password = info.authenticators(urlparse(URS_URL).hostname)
-        errprefix = 'netrc error: '
+        username, _, password = info.authenticators(urlparse(URS_URL).hostname)
     except Exception as e:
         if (not ('No such file' in str(e))):
             print('netrc error: {0}'.format(str(e)))
