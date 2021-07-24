@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-07-24 03:43:49
+LastEditTime: 2021-07-24 22:19:42
 '''
 # Define your item pipelines here
 #
@@ -33,5 +33,6 @@ class ModisScrapyPipeline(FilesPipeline):
     def file_path(self, request, response=None, info=None, *, item=None):
         path = urlparse(request.url).path
         base_name = os.path.basename(path)
+        save_folder, _, _ = base_name.partition('.')
         
-        return base_name
+        return os.path.join(save_folder, base_name)
