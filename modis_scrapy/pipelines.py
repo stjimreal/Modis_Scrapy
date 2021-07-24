@@ -1,7 +1,7 @@
 '''
 Date: 2021-03-25 22:31:44
 LastEditors: LIULIJING
-LastEditTime: 2021-07-24 03:27:12
+LastEditTime: 2021-07-24 03:43:49
 '''
 # Define your item pipelines here
 #
@@ -26,7 +26,7 @@ import os
 class ModisScrapyPipeline(FilesPipeline):
     def get_media_requests(self, item, info):
         # ('Authorization', 'Basic MTA3OTA4NTgxMFdzdGFyOlJhZGkxMjM0NTY=')
-        header = {'Authorization': 'Basic {}'.format(credentials.get_credentials())}
+        header = {'User-Agent': random.choice(USER_AGENT_LIST), 'Authorization': 'Basic {}'.format(credentials.get_credentials())}
         for file_url in item['file_urls']:
             req = Request(file_url, headers=header)
             yield req
