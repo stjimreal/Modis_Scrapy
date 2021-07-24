@@ -1,13 +1,13 @@
 <!--
  * @Date: 2021-03-26 21:21:27
  * @LastEditors: LIULIJING
- * @LastEditTime: 2021-07-24 22:06:42
+ * @LastEditTime: 2021-07-25 00:56:43
 -->
-# MODIS NSIDC 冰雪数据集 Scrapy 爬虫
+# MODIS Scrapy 爬虫
 
 ## 使用前配置需求
 
-+ 修改 `cfg.py`完成配置，登录网站(https://urs.earthdata.nasa.gov/login)可能需要科学上网，确认登录端口，默认端口为`7890`  
++ 修改 `cfg.py`完成配置，[登录网站](https://urs.earthdata.nasa.gov/login)可能需要科学上网，确认**代理端口**，默认端口为`7890`  
 
 + 修改 `cfg.py`中的`FILES_STORE`以修改存储路径，注意 `Windows` 系统使用反斜杠`\`表示路径，并且注意使用双反斜杠`\\`转义
 
@@ -18,6 +18,9 @@ machine urs.earthdata.nasa.gov
 login [USERNAME]
 password [PASSWORD]
 ```
+
++ 目前经过测试的数据中心包括`NSIDC`, `LAADS`, `LPDAAC`，其中`LPDAAC`可能所有资源需要科学上网，可以在`pipeline.py`的`Request`中设置`meta={'proxy': 'PROXY_HERE'}`
+
 
 ## 使用需要安装
 

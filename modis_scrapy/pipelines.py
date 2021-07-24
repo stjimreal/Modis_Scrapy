@@ -10,13 +10,24 @@ LastEditTime: 2021-07-25 02:03:36
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+import random
+from utils import credentials
+from utils.globals import USER_AGENT_LIST
 from scrapy.pipelines.files import FilesPipeline
 from urllib.parse import urlparse
 import os
 
 
 class ModisScrapyPipeline(FilesPipeline):
+    def get_media_requests(self, item, info):
+
+        header = {'User-Agent': random.choice(USER_AGENT_LIST), 'Authorization': 'Basic {}'.format(credentials.get_credentials())}
+        for file_url in item['file_urls']:
+            req = Request(file_url, headers=header)
+            yield req
     def file_path(self, request, response=None, info=None, *, item=None):
         path = urlparse(request.url).path
-        return os.path.basename(path)
+        base_name = os.path.basename(path)
+        save_folder, _, _ = base_name.partition('.')
+        
+        return os.path.join(save_folder, base_name)

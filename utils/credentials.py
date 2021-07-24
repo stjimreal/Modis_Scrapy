@@ -53,11 +53,9 @@ def get_credentials():
     """Get user credentials from .netrc or prompt for input."""
     global URS_URL
     credentials = None
-    errprefix = ''
     try:
         info = netrc.netrc()
-        username, account, password = info.authenticators(urlparse(URS_URL).hostname)
-        errprefix = 'netrc error: '
+        username, _, password = info.authenticators(urlparse(URS_URL).hostname)
     except Exception as e:
         if (not ('No such file' in str(e))):
             print('netrc error: {0}'.format(str(e)))

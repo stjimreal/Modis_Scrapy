@@ -13,11 +13,10 @@ filename_filter = ''
 
 CMR_URL = 'https://cmr.earthdata.nasa.gov'
 URS_URL = 'https://urs.earthdata.nasa.gov'
-meta_proxy = 'socks5://127.0.0.1:7890'
-CMR_PAGE_SIZE = 20
-CMR_FILE_URL = ('{0}/search/granules.json?provider=NSIDC_ECS'
+CMR_PAGE_SIZE = 2000
+CMR_FILE_URL = ('{0}/search/granules.json?provider={1}'
                 '&sort_key[]=start_date&sort_key[]=producer_granule_id'
-                '&scroll=false&page_size={1}'.format(CMR_URL, CMR_PAGE_SIZE))
+                '&scroll=true&page_size={2}'.format(CMR_URL, data_center, CMR_PAGE_SIZE))
 USER_AGENT_LIST=[
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36',
             'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'
