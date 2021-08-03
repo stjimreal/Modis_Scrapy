@@ -29,3 +29,5 @@ password [PASSWORD]
 + 安装`Scrapy`依赖环境，`pip install -r requirements.txt`
 
 + 运行`main.py`
+
+## 如果遇到问题欢迎在 [#issue](https://github.com/stjimreal/Modis_Scrapy/issues) 中提出！
