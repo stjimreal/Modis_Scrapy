@@ -1,2 +1,3 @@
-Scrapy==2.4.1
-itemadapter==0.2.0
+Scrapy
+itemadapter
+gdal

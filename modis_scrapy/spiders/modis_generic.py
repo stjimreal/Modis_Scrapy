@@ -9,6 +9,7 @@ import scrapy
 from utils import credentials, utilities
 from utils.globals import USER_AGENT_LIST, meta_proxy, short_name, version, time_start, time_end, \
             bounding_box, polygon, filename_filter
+from utils.gdal_proc import parse_tiles_by_day
 from modis_scrapy.items import ModisScrapyItem
 
 import logging
@@ -61,7 +62,9 @@ class ModisNsidcSpider(scrapy.Spider):
             return self.get_credentials(response.meta['url_list'])
 
     def cmr_download(self, response):
-        item = ModisScrapyItem(file_urls=response.meta['url_list'])
+        req_list = response.meta['url_list']
+        tile_list_by_day = parse_tiles_by_day(req_list)
+        item = ModisScrapyItem(file_urls=req_list, tile_chklist = tile_list_by_day)
         yield item
 
     def get_credentials(self, url_list):

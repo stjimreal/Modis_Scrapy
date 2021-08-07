@@ -1,6 +1,9 @@
 from utils.globals import CMR_FILE_URL
 
+import re
 import math
+from urllib.parse import urlparse
+import os
 import sys
 import itertools
 
@@ -109,5 +112,28 @@ def cmr_filter_urls(search_results):
         unique_filenames.add(filename)
 
         urls.append(link['href'])
-
     return urls
+
+def get_date_julian(url:str):
+    path = urlparse(url).path
+    return os.path.basename(path).split('.')[1]
+
+def get_date_normal(date_code:str):
+    patt = re.compile('/([0-9]+[\.-/_]?[0-9]+[\.-/_]?[0-9]+)')
+    [date, *_] = patt.findall(date_code)
+    date = date.replace('.', '')
+    date = date.replace('-', '')
+    date = date.replace('_', '')
+    date = date.replace('/', '')
+    return date
+
+def parse_save_url(file_url:str):
+    path = urlparse(file_url).path
+    date_code = os.path.dirname(path)
+    base_name = os.path.basename(path)
+    product, _, _ = base_name.partition('.')
+    return date_code, os.path.join(product, base_name)
+
+def yes_no_parser(item: str):
+    item = item.strip().lower()
+    return item.startswith('y')
