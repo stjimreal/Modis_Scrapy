@@ -74,6 +74,7 @@ except ImportError:
         raise ImportError('Python GDAL library not found, please install '
                           'python-gdal')
 
+from traceback import format_exc
 
 RESAM_GDAL = ['AVERAGE', 'BILINEAR', 'CUBIC', 'CUBIC_SPLINE', 'LANCZOS',
               'MODE', 'NEAREST_NEIGHBOR']
@@ -622,7 +623,10 @@ class createMosaicGDAL:
             for n in names:
                 n.copy_into(t_fh, 1, i, fill)
             i = i + 1
-        self.write_mosaic_xml(output)
+        try:
+            self.write_mosaic_xml(output)
+        except Exception:
+            print(format_exc())
         t_fh = None
         if not quiet:
             print("The mosaic file {name} has been "
