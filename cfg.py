@@ -1,15 +1,16 @@
 '''
 Date: 2021-03-26 19:20:38
 LastEditors: LIULIJING
-LastEditTime: 2021-07-25 00:58:01
+LastEditTime: 2021-11-08 12:41:54
 '''
 
-short_name = ['MOD10A1'] # product name (DO NOT FORGET the square brackets)
-version = '6' # version: 5 6 61
-data_center = 'NSIDC_ECS' # NSIDC_ECS, LAADS, LPDAAC_ECS, ...
-time_start = '2021-06-09T00:00:00Z' # begin date, try not changing the format
-time_end = '2021-06-12T05:48:52Z' # end date
-bounding_box = '62,26,105.0018536,46.000389' # W, S, E, N or other GeoJson format
+short_name = ['MOD02HKM', 'MYD02HKM'] # product name (DO NOT FORGET the square brackets)
+version = '6.1' # version: 5 6 61 6.1
+data_center = 'LAADS' # NSIDC_ECS, LAADS, LPDAAC_ECS, ...
+time_start = '2021-09-01T00:00:00Z' # begin date, try not changing the format
+time_end = '2021-09-02T05:48:52Z' # end date
+# bounding_box = '62,26,105.0018536,46.000389' # W, S, E, N or other GeoJson format
+bounding_box = '80,-20,140,30' # W, S, E, N or other GeoJson format
 polygon = '' # GeoJson Format
 filename_filter = '' # Regular Expression
 
@@ -33,5 +34,5 @@ ALL_DONE_FILE_OUTPUT_PATH = '/Users/jimlau/MODIS_NSIDC_DATABASE_Debug/output'
 # file persist options 
 # which worked in case the REPROJECT OPTIONS were turned on.
 # 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧
-save_stitch_file = 'N'
+save_stitch_file = 'Y'
 save_origin_file = 'Y'

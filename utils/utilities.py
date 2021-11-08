@@ -41,7 +41,7 @@ def build_cmr_query_url(short_name, version, time_start, time_end,
                         bounding_box=None, polygon=None,
                         filename_filter=None):
     params = '&short_name={0}'.format(short_name)
-    params += build_version_query_params(version)
+    params += '&version={0}'.format(version)
     params += '&temporal[]={0},{1}'.format(time_start, time_end)
     if polygon:
         params += '&polygon={0}'.format(polygon)
