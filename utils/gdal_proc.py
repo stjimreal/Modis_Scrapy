@@ -15,7 +15,7 @@ def get_output_ext(path:str):
     return ds.GetGeoTransform(), (ds.RasterXSize, ds.RasterYSize), ds.GetProjection()
 
 def parse_tiles_by_day(list_of_tiles:list) -> dict:
-    list_of_tiles = [file for file in list_of_tiles if not file.endswith('xml')]
+    list_of_tiles = [file for file in list_of_tiles]
     all_crates = {}
     for l in list_of_tiles:
         date_code, save_path = parse_save_url(l)

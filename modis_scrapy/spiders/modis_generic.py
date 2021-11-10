@@ -5,6 +5,7 @@ LastEditTime: 2021-07-25 00:50:17
 '''
 from os import name
 import scrapy
+from scrapy.http.request import Request
 
 from utils import credentials, utilities
 from utils.globals import USER_AGENT_LIST, meta_proxy, short_name, version, time_start, time_end, \
@@ -20,8 +21,11 @@ import json
 class ModisNsidcSpider(scrapy.Spider):
     name = 'modis_generic'
 
+    custom_settings = {
+        'DOWNLOAD_WARNSIZE': 0,
+    }
     LOG_FORMAT="%(asctime)s======%(levelname)s++++++\n%(message)s"
-    log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_nsidc_spider.log", maxBytes=5000*1024, backupCount=5)])
+    log = logging.basicConfig(level=logging.INFO, format=LOG_FORMAT, handlers=[logging.handlers.RotatingFileHandler("logs/modis_generic.log", maxBytes=5000*1024, backupCount=5)])
     logging.disable(logging.DEBUG)
     def __init__(self) -> None:
         super().__init__(name=name)
@@ -59,17 +63,25 @@ class ModisNsidcSpider(scrapy.Spider):
             header['cmr-scroll-id'] = response.headers['cmr-scroll-id']
             return [scrapy.Request(query_url, callback=self.cmr_search, headers=header, meta={'url_list': url_list}, dont_filter=True) for query_url in self.cmr_query_url]
         else:
-            return self.get_credentials(response.meta['url_list'])
+            return self.get_credentials(response)
 
     def cmr_download(self, response):
         req_list = response.meta['url_list']
         tile_list_by_day = parse_tiles_by_day(req_list)
-        item = ModisScrapyItem(file_urls=req_list, tile_chklist = tile_list_by_day)
+        item = ModisScrapyItem(file_urls=set(req_list), tile_chklist = tile_list_by_day)
         yield item
 
-    def get_credentials(self, url_list):
+    def get_credentials(self, response):
         """Get user credentials from .netrc or prompt for input."""
-        url = url_list[0]
+        url_list = response.meta['url_list']
         header = {'User-Agent': random.choice(USER_AGENT_LIST), 'Authorization': 'Basic {0}'.format(credentials.get_credentials())}
 
-        return scrapy.Request(url, callback=self.cmr_download, headers=header, meta= {'proxy': meta_proxy, 'url_list': url_list}, dont_filter=True)
+        return scrapy.Request(url_list[0], callback=self.cmr_download, headers=header, meta= {'proxy': meta_proxy, 'url_list': url_list})
+
+    def re_login(self, response):
+        """Get user credentials from .netrc or prompt for input."""
+        url = response.meta['original_url']
+        header = {'User-Agent': random.choice(USER_AGENT_LIST), 'Authorization': 'Basic {0}'.format(credentials.get_credentials())}
+        logging.info("cookie expired,now is downloading: {}".format(url))
+
+        return scrapy.Request(url, headers=header, meta= {'proxy': meta_proxy})
